@@ -1,10 +1,3 @@
-const express = require('express');
-const app = express();
+// The apps config
+const config = require('../config.json')
 
-const port = process.env.port || 3000;
-
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-
-app.listen(port, () => console.log(`Running server at http://localhost:${port}`));

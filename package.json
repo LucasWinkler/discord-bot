@@ -1,0 +1,22 @@
+{
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "description": "A simple discord bot in Node.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasWinkler/discord-bot.git"
+  },
+  "author": "Lucas Winkler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LucasWinkler/discord-bot/issues"
+  },
+  "homepage": "https://github.com/LucasWinkler/discord-bot#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

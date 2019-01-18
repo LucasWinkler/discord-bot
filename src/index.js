@@ -5,16 +5,21 @@ const config = require('../config')
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+// Command prefix
+const prefix = '!';
+
+// Listens for the ready event
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}!`);
+});
+
 // Listens for any messages sent in the server
 client.on('message', message => {
-    let sender = message.author; // The sender of the message
-    let msg = message.content.toUpperCase(); // The senders message
-
-    const prefix = '!'; // The character entered before a command
+    let msg = message.content.toUpperCase();
 
     // Simple "Ping/Pong" command.
-    if (msg.toUpperCase() === prefix + 'PING') {
-        message.channel.send('Pong!');
+    if (msg === prefix + 'PING') {
+        message.reply('Pong!');
     }
 });
 

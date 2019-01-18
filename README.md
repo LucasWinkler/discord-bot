@@ -3,7 +3,7 @@ Creating a simple discord bot in Node.js
 
 # How to:
 1. Copy the sample config and rename to "config.js"
-2. Replace "XXXX" with your bots auth token from
+2. Replace "XXXX" with your bots auth token
 
 # Where to find auth token
 1. https://discordapp.com/developers/applications/

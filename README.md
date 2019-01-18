@@ -1,5 +1,5 @@
 # discord-bot
-Creating a simple discord bot in Node.js
+Creating a simple discord bot in Node.js using discord.js (https://discord.js.org/#/)
 
 # How to:
 1. Copy the sample config and rename to "config.js"

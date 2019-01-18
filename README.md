@@ -7,5 +7,5 @@ Creating a simple discord bot in Node.js
 
 # Where to find auth token
 1. https://discordapp.com/developers/applications/
-2. Create an application.
-3. Create a bot and copy the token.
+2. Create an application
+3. Create a bot and copy the token

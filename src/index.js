@@ -1,5 +1,5 @@
 // The apps config
-const config = require('../config.js')
+const config = require('../config')
 
 // The discord.js package and the client
 const Discord = require('discord.js');
@@ -19,4 +19,4 @@ client.on('message', message => {
 });
 
 // Connects the client using the auth token set in the config.js
-client.login(config.auth.token);
+client.login(config.token);

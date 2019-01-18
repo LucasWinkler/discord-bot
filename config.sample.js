@@ -1,5 +1,5 @@
 {
-    auth: {
-        token: "XXXX"
-    }
+    module.exports = {
+        'token': 'XXXX'
+    };
 }

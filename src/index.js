@@ -24,4 +24,4 @@ client.on('message', message => {
 });
 
 // Connects the client using the auth token set in the config.js
-client.login(config.token);
+client.login(config.auth.token);

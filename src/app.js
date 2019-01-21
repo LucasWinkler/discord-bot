@@ -2,11 +2,13 @@
 const config = require('../config')
 
 // The needed packages
-const Discord = require('discord.js');
+const discord = require('discord.js');
 const moment = require('moment');
+const giphy = require('giphy-js-sdk-core')("X7R9jS61fwGTofIhsSG3OeJKq0kpLQjf");
 
 // New instance of the discord client
-const client = new Discord.Client();
+const client = new discord.Client();
+//const giphyClient = giphy();
 
 // Command prefix
 const prefix = '!';
@@ -22,7 +24,8 @@ client.on('guildMemberAdd', member => {
         ch => ch.name === 'member-log');
         
     if (!channel) return;
-    channel.send(`Welcome to the server, ${member} (${member.user.username})`);
+
+    channel.send(`Welcome to the server, ${member}`);
 });
 
 // Event triggered when someone leaves
@@ -31,7 +34,8 @@ client.on('guildMemberRemove', member => {
         ch => ch.name === 'member-log');
 
         if (!channel) return;
-        channel.send(`Goodbye,${member} (${member.user.username})`);
+        
+        channel.send(`Goodbye, ${member}`);
 });
 
 // Listens for any messages sent in the server
@@ -44,6 +48,16 @@ client.on('message', message => {
 
     if (msg === prefix + 'PING') {
         message.channel.send('Pong!');
+    }
+
+    if (msg === prefix + 'RGIF') {
+        giphy.random('gifs', {"tag": 'pizza'})
+            .then((response) => {
+                   message.channel.send(response.data.url);
+            })
+            .catch((err) => {
+                console.log(err); 
+            });
     }
 });
 

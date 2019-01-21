@@ -16,7 +16,7 @@ client.on('ready', () => {
 // Event is triggered when someone joins the server
 client.on('guildMemberAdd', member => {
     const channel = member.guild.channels.find(
-        ch => ch.name === 'member-log');
+        ch => ch.name === 'general');
         
     if (!channel) return;
     channel.send(`Welcome to the server, ${member}`);

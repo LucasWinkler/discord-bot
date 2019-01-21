@@ -14,11 +14,13 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-// Event is triggered when someone joins the channel
+// Event triggered when someone joins the channel
 client.on('guildMemberAdd', member => {
+    // Finds the channel to send a welcome message to
     const channel = member.guild.channels.find(
         ch => ch.name === 'member-log');
 
+    // If the channel wasn't found then return
     if (!channel) return;
 
     channel.send(`Welcome to the server, ${member}`);
@@ -26,6 +28,7 @@ client.on('guildMemberAdd', member => {
 
 // Event triggered when someone leaves
 client.on('guildMemberRemove', member => {
+    // Finds the channel to send a goodbye message to
     const channel = member.guild.channels.find(
         ch => ch.name === 'member-log');
 
@@ -34,24 +37,32 @@ client.on('guildMemberRemove', member => {
     channel.send(`Goodbye, ${member}`);
 });
 
-// Listens for any messages sent in the server
+// Listens for any messages sent in the channel
 client.on('message', async message => {
-    let msg = message.content.toUpperCase();
-    let author = message.author;
+    // If the sender of the message is the bot then return 
+    let sender = message.author;
+    if (sender.equals(client.user)) return;
 
-    // Log messages to console if not this client
-    if (author != client.user) console.log(`[${moment().format('M/D/YYYY, h:mm:ss a')}] ${author.username}: '${message.content}'`);
+    // If the msg does not start with the prefix then return
+    let msg = message.content;
+    if (!msg.startsWith(config.discord.prefix)) return;
 
-    if (msg === config.discord.prefix + 'PING') {
+    // Log command to console
+    console.log(`[${moment().format('M/D/YYYY, h:mm:ss a')}] ${sender.username}: '${msg}'`);
+
+    let arg = msg.substring(config.discord.prefix.length).split(' ');    
+    let cmd = arg[0].toUpperCase();
+
+    // Ping/pong
+    if (cmd === 'PING') {
         message.channel.send('Pong!');
     }
 
     // Finds a random gif with an optional tag
-    if (msg.includes('RGIF')) {
-        let tag = msg.split(' ');
-        tag.shift();
-        tag = tag.join(' ');
-
+    if (cmd === 'RGIF') {
+        arg.shift();
+        let tag = arg.join(' ');
+    
         giphy.random('gifs', { 'tag': tag })
             .then((response) => {
                 message.channel.send(response.data.url);
@@ -59,6 +70,14 @@ client.on('message', async message => {
             .catch((err) => {
                 console.log(err);
             });
+    }
+
+    // Clears the last 100 messages sent in the channel
+    if (cmd === 'CLEAR') {
+        message.channel.fetchMessages()
+            .then(fetchedMessages => {
+                message.channel.bulkDelete(fetchedMessages);
+            });   
     }
 });
 

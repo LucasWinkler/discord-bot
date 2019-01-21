@@ -13,13 +13,21 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
+// Event is triggered when someone joins the server
+client.on('guildMemberAdd', member => {
+    const channel = member.guild.channels.find(
+        ch => ch.name === 'member-log');
+        
+    if (!channel) return;
+    channel.send(`Welcome to the server, ${member}`);
+});
+
 // Listens for any messages sent in the server
 client.on('message', message => {
     let msg = message.content.toUpperCase();
 
-    // Simple "Ping/Pong" command.
     if (msg === prefix + 'PING') {
-        message.reply('Pong!');
+        message.channel.send('Pong!');
     }
 });
 

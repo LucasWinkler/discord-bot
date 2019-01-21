@@ -1,5 +1,9 @@
-{
-    module.exports.auth = {
-        'token': 'XXXX'
-    };
-}
+module.exports = {
+    discord: {
+        token: 'XXXX',
+        prefix: '!'
+    },
+    giphy: {
+        api_key: 'XXXX'
+    }
+};

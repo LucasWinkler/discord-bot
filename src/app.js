@@ -1,17 +1,18 @@
 // The apps config
-const config = require("../config");
+const config = require("../config.json");
 
 // The needed packages
 const discord = require("discord.js");
 const moment = require("moment");
-const giphy = require("giphy-js-sdk-core")(config.giphy.api_key);
+const giphy = require("giphy-js-sdk-core")(config.giphy.key);
 
 // New instance of the discord client
 const client = new discord.Client();
 
 // Listens for the ready event
 client.on("ready", () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  client.user.setActivity("Fartnite");
+  return console.log(`${client.user.username} is now online!`);
 });
 
 // Event triggered when someone joins the channel
@@ -22,7 +23,7 @@ client.on("guildMemberAdd", member => {
   // If the channel wasn't found then return
   if (!channel) return;
 
-  channel.send(`Welcome to the server, ${member}`);
+  return channel.send(`Welcome to the server, ${member}`);
 });
 
 // Event triggered when someone leaves
@@ -32,43 +33,54 @@ client.on("guildMemberRemove", member => {
 
   if (!channel) return;
 
-  channel.send(`Goodbye, ${member}`);
+  return channel.send(`Goodbye, ${member}`);
 });
 
 // Listens for any messages sent in the channel
 client.on("message", async message => {
-  // If the sender of the message is the bot then return
-  let sender = message.author;
-  if (sender.equals(client.user)) return;
+  // Returns if the sender is the bot
+  const sender = message.author;
+  if (sender.bot) return;
 
-  // If the msg does not start with the prefix then return
-  let msg = message.content;
-  if (!msg.startsWith(config.discord.prefix)) return;
+  // The message and the prefix
+  const msg = message.content;
+  const prefix = config.prefix;
+
+  // Return if the message does not start with the command prefix
+  if (!msg.startsWith(prefix)) return;
 
   // Log command to console
   console.log(
     `[${moment().format("M/D/YYYY, h:mm:ss a")}] ${sender.username}: '${msg}'`
   );
 
-  let arg = msg.substring(config.discord.prefix.length).split(" ");
-  let cmd = arg[0].toUpperCase();
+  // Senders command and any arguments
+  const arg = msg.substring(prefix.length).split(" ");
+  const cmd = arg[0].toUpperCase();
 
-  // Ping/pong
-  if (cmd === "PING") {
-    message.channel.send("Pong!");
+  // The channel that the message was sent in
+  const chnl = message.channel;
+
+ // Ping/Pong command
+  if (cmd === "PING") {    
+    return chnl.send("Pong!");
+  }
+
+  if (cmd === "HELLO") {
+    return chnl.send(`Hello ${sender.username}!`);
   }
 
   // Finds a random gif with an optional tag
   if (cmd === "RGIF") {
     arg.shift();
-    let tag = arg.join(" ");
+    const tag = arg.join(" ");
 
     giphy
       .random("gifs", {
         tag: tag
       })
       .then(response => {
-        message.channel.send(response.data.url);
+        return chnl.send(response.data.url);
       })
       .catch(err => {
         console.log(err);
@@ -77,11 +89,12 @@ client.on("message", async message => {
 
   // Clears the last 100 messages sent in the channel
   if (cmd === "CLEAR") {
-    message.channel.fetchMessages().then(fetchedMessages => {
-      message.channel.bulkDelete(fetchedMessages);
-    });
+    chnl.fetchMessages()
+      .then(fetchedMessages => {
+        return chnl.bulkDelete(fetchedMessages);
+      });
   }
 });
 
 // Connects the client using the auth token set in the config.js
-client.login(config.discord.token);
+client.login(config.token);

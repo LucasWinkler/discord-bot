@@ -1,0 +1,8 @@
+{
+    "token": "BOT-TOKEN",
+    "prefix": "COMMAND-PREFIX",
+
+    "giphy": {
+        "key": "API-KEY"
+    }
+}
